@@ -1,0 +1,11 @@
+<template>
+    <lightning-card>
+        <template if:true={user}>
+            <div style="margin: 2px;">{user.firstName} {user.lastName}</div>
+        </template>
+        
+        <div>
+            <button style="margin: 2px;" onclick={handleChange}>Click Me</button>
+        </div>
+    </lightning-card>
+</template>

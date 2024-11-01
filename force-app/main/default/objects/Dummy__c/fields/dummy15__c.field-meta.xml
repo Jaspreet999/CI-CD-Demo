@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>dummy15__c</fullName>
+    <label>dummy15</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>a</fullName>
+                <default>false</default>
+                <label>a</label>
+            </value>
+            <value>
+                <fullName>b</fullName>
+                <default>false</default>
+                <label>b</label>
+            </value>
+            <value>
+                <fullName>c</fullName>
+                <default>false</default>
+                <label>c</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

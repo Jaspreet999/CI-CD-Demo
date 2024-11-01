@@ -1,0 +1,18 @@
+.red{
+    background-color: red;
+}
+
+.green{
+    background-color: green;
+}
+
+.white{
+    background-color: white;
+}
+
+.custom-button .slds-button{
+    background-color: transparent;
+    color: black;
+    margin: 2%;
+    size: 4%;
+}

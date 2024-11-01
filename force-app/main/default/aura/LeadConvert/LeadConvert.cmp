@@ -1,0 +1,439 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" 
+                access="global" controller="LeadConvertcontroller">
+    <ltng:require styles="{!$Resource.Background}" />
+    <aura:handler action="{!c.doInit}" name="init" value="{!this}"/>
+    <aura:attribute name="isBusiness" type="Boolean" default="false"/>
+    <aura:attribute name="isPerson" type="Boolean" default="false"/>
+    <aura:attribute name="leadList" type="sObject"/>      
+    <aura:attribute name="storeRadioAcc" type="string" default="NewAccount"/>
+    <aura:attribute name="storeRadioCon" type="string"/>
+    <aura:attribute name="storeRadioOpp" type="string"/>
+    <aura:attribute name="oppCheckbox" type="Boolean" default="false"/>
+    <aura:attribute name="showLookupAccountError" type="Boolean" default="false"/>
+    <aura:attribute name="showAccountError" type="Boolean" default="false"/>
+    <aura:attribute name="objInfo" type="String" default="Lead__c" />
+    <aura:attribute name="selItemId" type="String"/>
+    <aura:attribute name="selItemIdCon" type="String"/>
+    <aura:attribute name="selItemIdAccName" type="String"/>
+    <aura:attribute Name="selItem" type="object" access="public" />
+    <aura:attribute Name="selItemCon" type="object" access="public" />
+    <aura:attribute Name="selItemUser" type="object"/>
+    <aura:attribute name="oppCount" type="String" access="public" />  
+    <aura:attribute name="oppMap" type="Map" access="public"/>
+    <aura:attribute name="getoppid" type="String"/>
+    <aura:attribute name="runChild" type="Boolean" default="true"/>
+    <aura:attribute name="openChild" type="Boolean" default="false"/>
+    <aura:attribute name="disableOpp" type="Boolean" default="false"/>
+    <aura:attribute name="AccountExists" type="Boolean" default="false"/>
+    <aura:attribute name="showAcc" type="Boolean" default="false"/>
+    <aura:attribute name="showCon" type="Boolean" default="false"/>
+    <aura:attribute name="showOpp" type="Boolean" default="false"/>
+    <aura:attribute name="oppShow" type="Boolean" default="false"/>
+    <aura:attribute name="showContactError" type="Boolean" default="false"/>
+    <aura:attribute name="disableAccRecordTypeSelect" type="Boolean" default="true"/>
+    <aura:attribute name="accRecTypeOptions" type="String" default="[]"/>
+    <aura:attribute name="disableOppRecordTypeSelect" type="Boolean" default="true"/>
+    <aura:attribute name="oppRecTypeOptions" type="String[]" default="[]"/>
+    <aura:attribute name="oppRecordType" type="String" default=""/>
+    <aura:attribute name="accRecordType" type="String" default=""/>
+    <aura:attribute name="opportunityName" type="String" default=""/>
+    <aura:attribute name="disableOpportunity" type="Boolean" default="false"/>
+    <aura:attribute name="leadRecordType" type="String" default=""/>    
+    <aura:attribute name="selectedOppRecordType" type="String"/>
+    <aura:attribute name='opportunityRecTypes' type='Object[]'/>
+    <aura:attribute name="opportunityCreate" type="Boolean" default="true"/>    
+    <aura:attribute name="oppcheckedBox" type="Boolean" default="false"/>    
+    
+    <aura:handler event="c:getaccradiobtnvalue" action="{!c.getaccradiobtnvalue}"/>
+    
+    <aura:html tag="style">
+        #cla {
+        height:100%;
+        width:100%;   
+        }
+        @media screen and (max-width: 480px) {
+        #cla {
+        margin-top:20%;
+        height:300%;
+        width:300%;   
+        }
+        }
+    </aura:html> 
+    
+    
+    <header class="slds-modal__header">
+        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Convert Lead</h2>
+    </header>
+    
+    <div class="slds-modal__body">
+        <aura:if isTrue="{!v.isBusiness}">
+        <div class="entityPanel slds-box_border collapse" style="display: flex">
+            <div class="slds-p-around--large row-container">
+                <div class="demo-only demo-only--sizing slds-grid slds-wrap">
+                    <div class="slds-col_padded slds-size_large-2-of-12 col-2" onclick="{!c.sectionOne}">
+                        <div class="slds-float--left ">
+                            <lightning:icon class="slds-hide" aura:id="articleOne" iconName="utility:chevronright" size="x-small" 
+                                            alternativeText="Indicates add"/>
+                            <lightning:icon class="slds-show" aura:id="articleOne" iconName="utility:chevrondown" size="x-small" 
+                                            alternativeText="Indicates dash"/>
+                        </div>
+                        <span class="slds-truncate slds-text-heading_x-small">Account</span>
+                    </div>
+                    
+                    <div class="slds-col_padded slds-size_large-4-of-12 col-4">
+                        <div class="input-label"> 
+                            <span>
+                                <ui:inputRadio value="true" class="slds-radio_faux" text="NewAccount" aura:id="radioAccountid" click="{!c.onChangeAcc}" 
+                                               name="nRecordAcc"/>
+                            </span>
+                            <label class="slds-radio__label uiLabel" data-aura-class="uiLabel">
+                                <span class="slds-form-element__label"><strong>Create New</strong></span>
+                            </label>
+                        </div>
+                        
+                        <aura:if isTrue="{!v.showAcc}">                                                        
+                            <div class="input-container">
+                                <ui:inputText class="borderClass" value="{!v.leadList.Company__c}" required="true" aura:id="AccountName1" 
+                                              label="Account Name" />
+                                
+                                <div>
+                                    <!--ui:inputSelect aura:Id="accRecordTypeIdTrue" class="dynamic" options="{!v.accRecTypeOptions}" label="Select Account Type" disabled="{!v.disableAccRecordTypeSelect}" change="{!c.onAccRecordTypeChange}"></ui:inputSelect-->
+                                    <ui:inputText aura:Id="accRecordTypeIdTrue" class="borderClass" value="{!v.accRecordType}" required="false" aura:id="accRecordTypeIdTrue" disabled="{!v.disableAccRecordTypeSelect}"
+                                                  label="Select Account Type" />
+                                </div>
+                                
+                                
+                            </div>
+                            <aura:set attribute="else">
+                                <lightning:input class="collapsed-input borderClass" label="Account Name" aura:id="AccountName2" value="{!v.leadList.Company__c}" 
+                                                 required="true"/>
+                                <!--ui:inputSelect aura:Id="accRecordTypeIdFalse" multiple="false" label="Select Account Type" options="{!v.accRecTypeOptions}" disabled="{!v.disableAccRecordTypeSelect}" change="{!c.onAccRecordTypeChange}">
+                                </ui:inputSelect-->
+                                <ui:inputText aura:Id="accRecordTypeIdTrue" class="borderClass" value="{!v.accRecordType}" required="false" aura:id="accRecordTypeIdTrue" disabled="{!v.disableAccRecordTypeSelect}"
+                                              label="Select Account Type" />
+                            </aura:set>
+                        </aura:if>
+                        
+                    </div>
+                    
+                    <div class="slds-col_padded slds-size_large-1-of-12 col-1">
+                        <span class="slds-truncate slds-text-heading_x-small">-OR-
+                            <div class="vertical-ruler"></div>
+                        </span>
+                    </div>
+                    <div class="slds-col_padded slds-size_large-4-of-12 col-4">
+                        <div class="input-label"> 
+                            <aura:renderIf isTrue="{!v.selItemIdAccName == null }">
+                                <span><!--onclick="{!c.sectionOne}"-->
+                                    <ui:inputRadio class="slds-radio_faux" text="OldAccount" name="nRecordAcc" change="{!c.onChangeAcc}" /></span>
+                                <label class="slds-radio__label uiLabel" data-aura-class="uiLabel">
+                                    <span class="slds-form-element__label"><strong>Choose Existing</strong></span></label>
+                                <aura:set attribute="else">
+                                    <span><!--onclick="{!c.sectionOne}"-->
+                                        <ui:inputRadio class="slds-radio_faux" text="OldAccount" name="nRecordAcc" change="{!c.onChangeAcc}" value="true" /></span>
+                                    <label class="slds-radio__label uiLabel" data-aura-class="uiLabel">
+                                        <span class="slds-form-element__label"><strong>Choose Existing</strong></span></label>
+                                </aura:set>
+                            </aura:renderIf>
+                        </div>
+                        
+                        <aura:renderIf isTrue="{!v.showLookupAccountError}">
+                            <span style="color:red">Please choose an existing account or create a new one.</span>
+                        </aura:renderIf>
+                        <aura:if isTrue="{!v.showAcc}">
+                            <div><span>Account Search</span></div><br/>
+                            <div>
+                                <aura:renderIf isTrue="{!v.selItemIdAccName == null }">
+                                    <c:Lookup objectName="Account" field_API_text="Name" 
+                                              field_API_val="Id" field_API_search="Name" field_API_search2="Client_Code__c" field_API_val2="Client_Code__c" field_API_val3="Phone"
+                                              lookupIcon="custom:Contact" selItem="{!v.selItem}" selItemId="{!v.selItemId}" oppCount="{!v.oppCount}" 
+                                              oppMap="{!v.oppMap}" disableOpp="{!v.disableOpp}" placeholder="Search for matching accounts" aura:id="lookupacc" 
+                                              runChild="{!v.runChild}" oppShow="{!v.oppShow}"/>
+                                    
+                                    <aura:set attribute="else">
+                                        <ui:inputText aura:id="aacc" value="{!v.selItemIdAccName}" disabled="{!v.disableAccRecordTypeSelect}"/>
+                                    </aura:set>
+                                </aura:renderIf>
+                                
+                            </div>
+                            <br/>
+                            <div class="emptyListContent">
+                                <lightning:input class="slds-input slds-combobox__input" placeholder="0 Account Matches" readonly="true"/>
+                            </div>
+                            <aura:set attribute="else">
+                                <br/>
+                                <lightning:input class="slds-input slds-combobox__input collpased-input" placeholder="0 Account Matches detected" 
+                                                 readonly="true"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                    
+                </div> 
+            </div>
+        </div>   
+        
+        <!--                  Contact                       -->
+        <div class="entityPanel slds-box_border collapse" style="display: flex">
+            <div class="slds-p-around--large row-container">
+                <div class="demo-only demo-only--sizing slds-grid slds-wrap">
+                    <div class="slds-col_padded slds-size_large-2-of-12 col-2" onclick="{!c.sectionTwo}">
+                        <div class="slds-float--left ">
+                            <lightning:icon class="slds-hide" aura:id="articleTwo" iconName="utility:chevrondown" size="x-small" alternativeText="Indicates add"/>
+                            <lightning:icon class="slds-show" aura:id="articleTwo" iconName="utility:chevronright" size="x-small" alternativeText="Indicates dash"/>
+                        </div>
+                        <span class="slds-truncate slds-text-heading_x-small">Contact</span>
+                    </div>
+                    <div class="slds-col_padded slds-size_large-4-of-12 col-4">
+                        <div class="input-label"> 
+                            <span><ui:inputRadio class="slds-radio_faux" text="NewContact" value="true" name="contacts" change="{!c.onGroupcon}"/></span>
+                            <label class="slds-radio__label uiLabel" data-aura-class="uiLabel">
+                                <span class="slds-form-element__label"><strong>Create New</strong></span></label>
+                        </div>                        
+                        <aura:if isTrue="{!v.showCon}">
+                            <div class="input-container">
+                                <div>
+                                    <ui:inputSelect aura:Id="makeId1" multiple="false" label="Salutation">
+                                        <ui:inputSelectOption label="Mr." text="Mr." value="true"/>
+                                        <ui:inputSelectOption label="Ms." text="Ms."/>
+                                        <ui:inputSelectOption label="Mrs." text="Mrs." />
+                                        <ui:inputSelectOption label="Dr." text="Dr."/>
+                                        <ui:inputSelectOption label="Prof." text="Prof."/>
+                                    </ui:inputSelect>
+                                </div>
+                                <div>
+                                    <ui:inputText aura:id="firstnameid1" label="First Name" value="{!v.leadList.First_Name__c}" required="false"/>
+                                </div>  
+                                
+                                <div>
+                                    <ui:inputText aura:id="lastnameid1" label="Last Name" value="{!v.leadList.Name}" required="true"/>
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <div>
+                                    <ui:inputSelect aura:Id="makeId2" multiple="false" label="Salutation">
+                                        <ui:inputSelectOption label="Mr." text="Mr." value="true"/>
+                                        <ui:inputSelectOption label="Ms." text="Ms."/>
+                                        <ui:inputSelectOption label="Mrs." text="Mrs." />
+                                        <ui:inputSelectOption label="Dr." text="Dr."/>
+                                        <ui:inputSelectOption label="Prof." text="Prof."/>
+                                    </ui:inputSelect>
+                                </div>
+                                
+                                <div>
+                                    <ui:inputText aura:id="firstnameid2" label="First Name" value="{!v.leadList.FirstName__c}" required="false"/>
+                                </div>
+                                <lightning:input class="collapsed-input borderClass" label="Last Name" aura:id="lastnameid2" name="input1" 
+                                                 value="{!v.leadList.Name}" required="true" />  
+                            </aura:set>
+                        </aura:if>                         
+                    </div>
+                    <div class="slds-col_padded slds-size_large-1-of-12 col-1">
+                        <span class="slds-truncate slds-text-heading_x-small">-OR-
+                            <div class="vertical-ruler"></div>
+                        </span>
+                    </div>
+                    <div class="slds-col_padded slds-size_large-4-of-12 col-4">
+                        <div class="input-label"> 
+                            <span><ui:inputRadio class="slds-radio_faux" name="contacts" text="OldContact" change="{!c.onGroupcon}" /></span>
+                            <label class="slds-radio__label uiLabel" data-aura-class="uiLabel">
+                                <span class="slds-form-element__label"><strong>Choose Existing</strong></span></label><br/>
+                        </div>
+                        <aura:renderIf isTrue="{!v.showContactError}">
+                            <span style="color:red">Please choose an existing account or create a new one.</span>
+                        </aura:renderIf>
+                        <aura:if isTrue="{!v.showCon}">
+                            <div><span>Contact Search</span></div><br/> 
+                            <div>
+                                <c:Lookup objectName="Contact" field_API_text="Name" field_API_val2="AccountId" field_API_val3="Account.Name"
+                                          field_API_val="Id" field_API_search="Name" field_API_search2="Account.Client_Code__c"
+                                          lookupIcon="custom:Contact" selItemId="{!v.selItemIdCon}" selItemIdAcc= "{!v.selItemId}" selItemIdAccName= "{!v.selItemIdAccName}" 
+                                          placeholder="Enter text to search Contacts"/>
+                            </div>
+                            <br/>
+                            <div class="emptyListContent">
+                                <ui:inputTextArea  rows="5" placeholder="0 Contact Matches detected"/>
+                            </div>
+                            <aura:set attribute="else">
+                                <lightning:input class="collapsed-input borderClass" placeholder="0 Contact Matches detected" readonly="true"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>                    
+                </div> 
+            </div>
+        </div>
+        </aura:if>
+        <aura:if isTrue="{!v.isPerson}">
+        <div class="entityPanel slds-box_border collapse" style="display: flex">
+            <div class="slds-p-around--large row-container">
+                <div class="demo-only demo-only--sizing slds-grid slds-wrap">
+                    <div class="slds-col_padded slds-size_large-2-of-12 col-2" onclick="{!c.sectionOne}">
+                        <div class="slds-float--left ">
+                            <lightning:icon class="slds-hide" aura:id="articleOne" iconName="utility:chevronright" size="x-small" 
+                                            alternativeText="Indicates add"/>
+                            <lightning:icon class="slds-show" aura:id="articleOne" iconName="utility:chevrondown" size="x-small" 
+                                            alternativeText="Indicates dash"/>
+                        </div>
+                        <span class="slds-truncate slds-text-heading_x-small">Account</span>
+                    </div>
+                    
+                    <div class="slds-col_padded slds-size_large-4-of-12 col-4">
+                        <div class="input-label"> 
+                            <span>
+                                <ui:inputRadio value="true" class="slds-radio_faux" text="NewAccount" aura:id="radioAccountid" click="{!c.onChangeAcc}" 
+                                               name="nRecordAcc"/>
+                            </span>
+                            <label class="slds-radio__label uiLabel" data-aura-class="uiLabel">
+                                <span class="slds-form-element__label"><strong>Create New</strong></span>
+                            </label>
+                        </div>
+                        
+                        <aura:if isTrue="{!v.showAcc}">                                                        
+                          <div class="input-container">
+                                <div>
+                                    <ui:inputSelect aura:Id="makeId1" multiple="false" label="Salutation">
+                                        <ui:inputSelectOption label="Mr." text="Mr." value="true"/>
+                                        <ui:inputSelectOption label="Ms." text="Ms."/>
+                                        <ui:inputSelectOption label="Mrs." text="Mrs." />
+                                        <ui:inputSelectOption label="Dr." text="Dr."/>
+                                        <ui:inputSelectOption label="Prof." text="Prof."/>
+                                    </ui:inputSelect>
+                                </div>
+                                <div>
+                                    <ui:inputText aura:id="firstnameaccid1" label="First Name" value="{!v.leadList.First_Name__c}" required="false"/>
+                                </div>  
+                                
+                                <div>
+                                    <ui:inputText aura:id="lastnameaccid1" label="Last Name" value="{!v.leadList.Name}" required="true"/>
+                                </div>
+                              <div>
+                              <ui:inputText aura:Id="accRecordTypeIdTrue" class="borderClass" value="{!v.accRecordType}" required="false" aura:id="accRecordTypeIdTrue" disabled="{!v.disableAccRecordTypeSelect}"
+                                              label="Select Account Type" />
+                              </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <div>
+                                    <ui:inputSelect aura:Id="makeId2" multiple="false" label="Salutation">
+                                        <ui:inputSelectOption label="Mr." text="Mr." value="true"/>
+                                        <ui:inputSelectOption label="Ms." text="Ms."/>
+                                        <ui:inputSelectOption label="Mrs." text="Mrs." />
+                                        <ui:inputSelectOption label="Dr." text="Dr."/>
+                                        <ui:inputSelectOption label="Prof." text="Prof."/>
+                                    </ui:inputSelect>
+                                </div>
+                                
+                                <div>
+                                    <ui:inputText aura:id="firstnameacc" label="First Name" value="{!v.leadList.First_Name__c}" required="false"/>
+                                </div>
+                                <lightning:input class="collapsed-input borderClass" label="Last Name" aura:id="lastnameacc" name="input1" 
+                                                 value="{!v.leadList.Name}" required="true" />  
+                                <ui:inputText aura:Id="accRecordTypeIdTrue" class="borderClass" value="{!v.accRecordType}" required="false" aura:id="accRecordTypeIdTrue" disabled="{!v.disableAccRecordTypeSelect}"
+                                              label="Select Account Type" />
+                            </aura:set>
+                        </aura:if>
+                        
+                    </div>
+                    
+                    <div class="slds-col_padded slds-size_large-1-of-12 col-1">
+                        <span class="slds-truncate slds-text-heading_x-small">-OR-
+                            <div class="vertical-ruler"></div>
+                        </span>
+                    </div>
+                    <div class="slds-col_padded slds-size_large-4-of-12 col-4">
+                        <div class="input-label"> 
+                            <aura:renderIf isTrue="{!v.selItemIdAccName == null }">
+                                <span><!--onclick="{!c.sectionOne}"-->
+                                    <ui:inputRadio class="slds-radio_faux" text="OldAccount" name="nRecordAcc" change="{!c.onChangeAcc}" /></span>
+                                <label class="slds-radio__label uiLabel" data-aura-class="uiLabel">
+                                    <span class="slds-form-element__label"><strong>Choose Existing</strong></span></label>
+                                <aura:set attribute="else">
+                                    <span><!--onclick="{!c.sectionOne}"-->
+                                        <ui:inputRadio class="slds-radio_faux" text="OldAccount" name="nRecordAcc" change="{!c.onChangeAcc}" value="true" /></span>
+                                    <label class="slds-radio__label uiLabel" data-aura-class="uiLabel">
+                                        <span class="slds-form-element__label"><strong>Choose Existing</strong></span></label>
+                                </aura:set>
+                            </aura:renderIf>
+                        </div>
+                        
+                        <aura:renderIf isTrue="{!v.showLookupAccountError}">
+                            <span style="color:red">Please choose an existing account or create a new one.</span>
+                        </aura:renderIf>
+                        <aura:if isTrue="{!v.showAcc}">
+                            <div><span>Account Search</span></div><br/>
+                            <div>
+                                <aura:renderIf isTrue="{!v.selItemIdAccName == null }">
+                                    <c:Lookup objectName="Account" field_API_text="Name" 
+                                              field_API_val="Id" field_API_search="Name" field_API_search2="Email__c" field_API_val2="Email__c" field_API_val3="Phone"
+                                              lookupIcon="custom:Contact" selItem="{!v.selItem}" selItemId="{!v.selItemId}" oppCount="{!v.oppCount}" 
+                                              oppMap="{!v.oppMap}" disableOpp="{!v.disableOpp}" placeholder="Search for matching accounts" aura:id="lookupacc" 
+                                              runChild="{!v.runChild}" oppShow="{!v.oppShow}"/>
+                                    
+                                    <aura:set attribute="else">
+                                        <ui:inputText aura:id="aacc" value="{!v.selItemIdAccName}" disabled="{!v.disableAccRecordTypeSelect}"/>
+                                    </aura:set>
+                                </aura:renderIf>
+                                
+                            </div>
+                            <br/>
+                            <div class="emptyListContent">
+                                <lightning:input class="slds-input slds-combobox__input" placeholder="0 Account Matches" readonly="true"/>
+                            </div>
+                            <aura:set attribute="else">
+                                <br/>
+                                <lightning:input class="slds-input slds-combobox__input collpased-input" placeholder="0 Account Matches detected" 
+                                                 readonly="true"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                    
+                </div> 
+            </div>
+        </div> 
+        </aura:if>
+        <!--Opportunity Record Type-->
+        
+        <div class="entityPanel slds-box_border collapse" style="display: flex">
+            <div class="slds-p-around--large row-container">
+                <div class="demo-only demo-only--sizing slds-grid slds-wrap">
+                    <div class="slds-col_padded slds-size_large-3-of-12 col-3" onclick="{!c.sectionTwo}">
+                        <div class="slds-float--left ">
+                            <lightning:icon class="slds-hide" aura:id="articleTwo" iconName="utility:chevrondown" size="x-small" alternativeText="Indicates add"/>
+                            <lightning:icon class="slds-show" aura:id="articleTwo" iconName="utility:chevronright" size="x-small" alternativeText="Indicates dash"/>
+                        </div>
+                        <span class="slds-truncate slds-text-heading_x-small">Opportunity</span>    
+                        <br/>
+                         <br/>
+                         <br/>
+                        <ui:inputCheckbox aura:id="opportunityCreated" value="{!v.opportunityCreate}" label="Create Opportunity" change="{!c.onCheck}"/>
+                    </div>
+                     
+                    
+                    <aura:if isTrue="{!v.opportunityCreate}">                         
+                        <div class="slds-col_padded slds-size_large-4-of-12 col-4">
+                                
+                                <ui:inputText class="borderClass" value="{!v.opportunityName}" required="true" aura:id="opportunityName" 
+                                              label="Opportunity Name" />
+                                
+                                <lightning:select label="Opportunity Type" name="selectopp" value="{!v.selectedOppRecordType}" aura:id="selectopp" required="true">
+                                    <option value="None">Choose one...</option>
+                                    <aura:iteration items="{!v.opportunityRecTypes}" var="opp">
+                                        <option value="{!opp.id}">{!opp.Name}</option>
+                                    </aura:iteration>
+                                </lightning:select>
+                        </div>
+                    </aura:if>                                       
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="slds-p-around--medium" >
+            <div class="slds-grid slds-gutters"> 
+                
+            </div>
+        </div>
+    </div>
+    <Footer class="slds-modal__footer">
+        <ui:button label="Cancel" class="slds-button slds-button--neutral cuf-publisherCancelButton uiButton" press="{!c.cancelBtn}"/>               
+        <ui:button class="slds-button slds-button_brand" press="{!c.leadConvert2}">Convert</ui:button>
+    </Footer>
+</aura:component>

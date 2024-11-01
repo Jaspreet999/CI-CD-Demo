@@ -1,0 +1,124 @@
+<template>
+
+    <lightning-card title="Account Related Opportunity">
+
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_2-of-3 slds-m-around_x-small">
+                <span>
+                    <lightning-record-picker label="Account" placeholder="Search Account" object-api-name="Account"
+                        onchange={handleAccountChange}>
+                    </lightning-record-picker>
+                </span>
+            </div>
+            <div class="slds-col slds-size_1-of-3">
+                <span><b>Total: {totalAmount}
+                    <b>Count:{totalRecord}</b>
+                </b></span>
+            </div>
+        </div>
+
+
+        <template if:true={relatedOpportunity}>
+            <div class="slds-p-around_small">
+                <div class="slds-box slds-theme_default" style="background-color: #5679C0">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-text-align_left">
+                            <span>Opportunity Name</span>
+                        </div>
+                        <div class="slds-col slds-text-align_left">
+                            <span>Stage Name</span>
+                        </div>
+                        <div class="slds-col slds-text-align_left">
+                            <span>Amount</span>
+                        </div>
+                        <div class="slds-col slds-text-align_left">
+                            <span>Closed Date</span>
+                        </div>
+                    </div>
+                </div>
+            </diV>
+            <template for:each={relatedOpportunity} for:item="opportunity">
+
+                <div class="slds-p-around_small" key={opportunity.id}>
+
+                    <div class={opportunity.color}>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-text-align_left">
+                                <span>{opportunity.Name}</span>
+                            </div>
+                            <div class="slds-col slds-text-align_left">
+                                <span>{opportunity.StageName}</span>
+                            </div>
+                            <div class="slds-col slds-text-align_left">
+                                <span>
+                                    <template if:true={opportunity.editable}>
+                                        <div class="slds-grid slds-gutters">
+                                            <div class="slds-col slds-size_2-of-3">
+                                                <span>{opportunity.Amount}</span>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-3">
+                                                <span>
+                                                    <lightning-button-icon icon-name="utility:edit"
+                                                        alternative-text="Edit" title="edit"
+                                                        ondblclick={handleDoubleClick}
+                                                        value={opportunity}
+                                                        >
+                                                    </lightning-button-icon>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template if:false={opportunity.editable}>
+                                        <div>
+                                            <lightning-input type="number" value={opportunity.Amount}
+                                                onchange={handleValueChange}
+                                                onmouseout={handOnMouseOut}></lightning-input>
+
+                                        </div>
+                                    </template>
+
+                                </span>
+                            </div>
+                            <div class="slds-col slds-text-align_left">
+                                <span>{opportunity.closeDate}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </template>
+            <div class="slds-grid slds-grid_align-center">
+                <div class="slds-col">
+                  <span>
+                    <lightning-button 
+                    variant="brand-outline" 
+                    label="Prev" 
+                    disabled={isPrevousRecord}
+                    title="Primary action with lighter look" 
+                    onclick={getPrevRecord} class="slds-m-left_x-small">
+                    </lightning-button>
+                  </span>
+                </div>
+                <div class="slds-col">
+                  <span>
+                    <lightning-button 
+                    variant="brand-outline" 
+                    label="Next" 
+                    disabled={isNextRecord}
+                    title="Primary action with lighter look" 
+                    onclick={getNextRecord} class="slds-m-left_x-small">
+                    </lightning-button>
+                  </span>
+                </div>
+              </div>
+            
+        </template>
+        <template if:false={relatedOpportunity}>
+            <p>loading data ...</p>
+        </template>
+
+
+    </lightning-card>
+
+</template>

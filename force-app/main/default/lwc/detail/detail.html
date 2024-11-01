@@ -1,0 +1,29 @@
+<template>
+
+    <template lwc:if={ready}>
+        <lightning-card  title={getLocationName} style="background-color: rgb(216, 230, 254);">
+            <div class="slds-text-heading_large slds-text-align_center slds-m-around_xx-small slds-m-top_x-large">{getTemprature} <sup><sup>.</sup>c</sup></div>
+            <div class="slds-text-heading_large slds-text-align_center slds-m-around_xx-small slds-m-bottom_large">{getCondition}</div>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-m-around_xx-small slds-text-align_center">
+                  <span>{getFeelsLike}</span>
+                  <div class="slds-text-align_center slds-text-body_small">Feels Like</div>
+                </div>
+                <div class="slds-col slds-m-around_xx-small slds-text-align_center">
+                  <span>{getHumidity}</span>
+                  <div class="slds-text-align_center slds-text-body_small"> Humidity</div>
+                </div>
+                <div class="slds-col slds-m-around_xx-small slds-text-align_center">
+                  <span>{getWindDirection}</span>
+                  <div class="slds-text-body_small">Wind Direction</div>
+                </div>
+              </div>
+        </lightning-card>
+    </template>
+
+    <template lwc:else>
+        <div>Loading the data...</div>
+    </template>
+    
+</template>

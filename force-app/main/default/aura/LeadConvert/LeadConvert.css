@@ -1,0 +1,144 @@
+.THIS .borderClass input{
+    border:1px solid #ddd;
+    border-radius:4px;
+    padding-left:10px;
+}
+
+.THIS .slds-modal__footer {
+    position: fixed;
+    bottom: 5%;
+    width: 100%;
+    margin-left: -32px;
+}
+.THIS .slds-modal__header {
+    position: fixed;
+    top:5%;
+    width: 100%;
+    margin-left: -32px;
+}
+.THIS .slds-box_border{
+    background: rgb(243, 242, 242);
+}
+.THIS .input-container{
+    background-color: #fff;
+    padding: 10px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top:10px;
+}
+.THIS .input-container label{
+    display:block;
+    padding-bottom:5px;
+}
+.THIS .row-container{
+    width:100%;
+}
+.THIS .row-container .col-1{
+    width:8.33%;	
+}
+.THIS .row-container .col-2{
+    width:16.66%;	
+}
+.THIS .row-container .col-3{
+    width:25%;	
+}
+.THIS .row-container .col-4{
+    width:33.33%;	
+}
+.THIS .collapsed-input input{
+    background-color:#fff;
+    border: 1px solid rgb(221, 219, 218);
+    border-radius:4px;
+    padding-left:10px;
+}
+.THIS .collpased-input label{
+    display:none;
+}
+.THIS .vertical-ruler {
+    width: 2px;
+    background-color: lightgrey;
+    height: 110px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    top: 60px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+/*9-Aug*/
+
+.cLeadConvert .row-container .col-4 {
+    padding: 0;    width: 42.33%;
+}
+.cLeadConvert .row-container .col-2 {
+    padding: 0;    width: 10.66%;
+}
+.cLeadConvert .row-container .col-1 {
+    width: 4%;
+    padding: 0px;
+}
+.cLeadConvert .slds-radio__label.uiLabel {
+    margin-left: 10px;
+}
+.cLeadConvert .slds-modal__header {
+    z-index: 99;
+}
+.cLeadConvert .dupePanelContainer {
+    border: none;
+}
+.cLeadConvert .slds-form-element__label{
+    font-size:15px;
+}
+.cLeadConvert .slds-modal__content:last-child {
+    padding: 0;}
+.cLeadConvert .cuf-content{
+    padding:0;
+}
+.cLeadConvert .slds-p-around_medium, .cLeadConvert .slds-p-around--medium {
+    padding: 0;
+}
+.cLeadConvert .slds-box_border {
+    margin-top: 5px;
+}
+.cLeadConvert .slds-form-element__control{    
+    margin-bottom: 10px;}
+.cLeadConvert .vertical-ruler {
+    height: 70px;
+    top: 40px;
+}
+.cLeadConvert .slds-box_border, .cLeadConvert .slds-box--border {
+    padding: 0;
+    border-radius: 0;
+    width: 100%;
+    margin: 0;
+}
+.cLeadConvert .row-container {
+    width: 100%;
+    margin: 0 0px; 
+    padding: 35px 5px;
+}
+.cLeadConvert .slds-p-around--large.whiteBg .slds-box_border {
+    width: 100%;
+    margin-left: 0px;
+    background: #fff;
+}
+.cLeadConvert .slds-p-around--large.whiteBg {
+    background: #fff;
+    padding: 10px 10px;
+    border-radius: 4px;
+    width: 100%;
+    margin-left: 0;
+}
+.cLeadConvert .customWrap{}
+.cLeadConvert .cShowOpportunity {
+    background-color: transparent;
+}
+.cLeadConvert .slds-box_border.customBoxx {
+    width: 94%;
+    margin: 0 30px;
+}
+.cLeadConvert .slds-modal__header .slds-icon {
+    display: none;
+}

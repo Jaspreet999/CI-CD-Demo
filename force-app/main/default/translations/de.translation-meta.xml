@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customApplications>
+        <label><!-- Hotel Manager --></label>
+        <name>Hotel_Manager</name>
+    </customApplications>
+    <customApplications>
+        <label><!-- LWC --></label>
+        <name>LWC</name>
+    </customApplications>
+    <customLabels>
+        <label><!-- APIKEY --></label>
+        <name>APIKEY</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- WeatherApi --></label>
+        <name>WeatherApi</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- tt_BaseURL --></label>
+        <name>trlhdtips__tt_BaseURL</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- tt_ConfimCancel --></label>
+        <name>trlhdtips__tt_ConfimCancel</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- tt_ConfimOK --></label>
+        <name>trlhdtips__tt_ConfimOK</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- tt_EnterPackageId --></label>
+        <name>trlhdtips__tt_EnterPackageId</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- tt_InvalidPackageId --></label>
+        <name>trlhdtips__tt_InvalidPackageId</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- tt_ResetPasswordFail --></label>
+        <name>trlhdtips__tt_ResetPasswordFail</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- tt_ResetPasswordSuccess --></label>
+        <name>trlhdtips__tt_ResetPasswordSuccess</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- tt_ResetPasswordTitle --></label>
+        <name>trlhdtips__tt_ResetPasswordTitle</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- tt_ResetPasswordWarning --></label>
+        <name>trlhdtips__tt_ResetPasswordWarning</name>
+    </customLabels>
+    <customTabs>
+        <label><!-- Bike Card --></label>
+        <name>Bike_Card</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Field Creation Api --></label>
+        <name>Field_Creation_Api</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- LWC Comp --></label>
+        <name>LWC_Comp</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- LWC Visualforce Devs --></label>
+        <name>LWC_Visualforce_Devs</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Lightning Record Picker --></label>
+        <name>Lightning_Record_Picker</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Working with Data --></label>
+        <name>Working_with_Data</name>
+    </customTabs>
+    <customTabs>
+        <label><!-- Your Bike Selection --></label>
+        <name>Your_Bike_Selection</name>
+    </customTabs>
+    <flowDefinitions>
+        <flows>
+            <screens>
+                <fields>
+                    <name>Method_Of_Payment</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>columns</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>maxRowSelection</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>minRowSelection</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>selectionMode</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>shouldDisplayLabel</name>
+                        <value/>
+                    </inputParameters>
+                    <name>billingdetail</name>
+                </fields>
+                <name>Billing_Data_Table</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Message</name>
+                </fields>
+                <name>Error_Screen</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>ThanksField</name>
+                </fields>
+                <name>Visited_Again</name>
+            </screens>
+        </flows>
+        <fullName>CheckOutFlow</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <screens>
+                <fields>
+                    <name>Copy_1_of_Error_Message</name>
+                </fields>
+                <name>Copy_1_of_Select_The_Room_For_Booking</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Copy_2_of_Error_Message</name>
+                </fields>
+                <name>Copy_2_of_Select_The_Room_For_Booking</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>CustomerEmail</name>
+                </fields>
+                <fields>
+                    <name>CustomerName</name>
+                </fields>
+                <fields>
+                    <name>CustomerPhone</name>
+                </fields>
+                <fields>
+                    <name>Customer_Detail_Section1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Customer_Detail_Section1_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Customer_Detail_Section1_Column2</name>
+                </fields>
+                <name>Customer_Detail</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Find_Best_Hotel_Section1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Find_Best_Hotel_Section1_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value/>
+                    </inputParameters>
+                    <name>Find_Best_Hotel_Section1_Column2</name>
+                </fields>
+                <fields>
+                    <name>Maximum_Price_Range</name>
+                </fields>
+                <fields>
+                    <name>Starting_Date</name>
+                    <validationRule/>
+                </fields>
+                <fields>
+                    <name>Type</name>
+                </fields>
+                <name>Find_Best_Hotel</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>successScreen</name>
+                </fields>
+                <name>Last_Screen</name>
+            </screens>
+            <screens>
+                <fields>
+                    <inputParameters>
+                        <name>columns</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>label</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>maxRowSelection</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>minRowSelection</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>selectionMode</name>
+                        <value/>
+                    </inputParameters>
+                    <inputParameters>
+                        <name>shouldDisplayLabel</name>
+                        <value/>
+                    </inputParameters>
+                    <name>List_Of_Rooms</name>
+                </fields>
+                <name>Select_The_Room</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Error_Message</name>
+                </fields>
+                <name>Select_The_Room_Booking</name>
+            </screens>
+        </flows>
+        <fullName>Flow_For_Controlling_Reservation</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <choices>
+                <name>S_149a89f6_e93f_4402_b3c5_24148bee75c0</name>
+            </choices>
+            <choices>
+                <name>S_3792e0ac_4617_447c_b1de_9c5075f6b9d1</name>
+            </choices>
+            <choices>
+                <name>S_895a92c9_a675_4047_bd25_4b67d875a37b</name>
+            </choices>
+            <choices>
+                <name>S_a0e9d086_3411_4d8f_950d_f2758a33fc68</name>
+            </choices>
+            <choices>
+                <name>S_f6dcd3bd_2efc_4cdd_a3d5_4fb54e458aac</name>
+            </choices>
+            <screens>
+                <fields>
+                    <name>S_55cf98c1_dc1a_4104_b385_89dab3632c94</name>
+                </fields>
+                <fields>
+                    <name>S_62185e3d_591b_4ade_9910_383fb5ff11cf</name>
+                </fields>
+                <name>surveyQuestionPage</name>
+            </screens>
+            <textTemplates>
+                <name>thankYouDescriptionTextTemplate</name>
+            </textTemplates>
+            <textTemplates>
+                <name>thankYouLabelTextTemplate</name>
+            </textTemplates>
+        </flows>
+        <fullName>customer_satisfaction</fullName>
+    </flowDefinitions>
+    <flowDefinitions>
+        <flows>
+            <screens>
+                <fields>
+                    <name>S_50a1d272_b234_4f92_a8fe_fa15dc797af4</name>
+                </fields>
+                <fields>
+                    <name>S_8b93e61a_35a5_435c_9c3d_30831d2252d6</name>
+                </fields>
+                <name>surveyQuestionPage</name>
+            </screens>
+            <textTemplates>
+                <name>thankYouDescriptionTextTemplate</name>
+            </textTemplates>
+            <textTemplates>
+                <name>thankYouLabelTextTemplate</name>
+            </textTemplates>
+        </flows>
+        <fullName>net_promoter_score</fullName>
+    </flowDefinitions>
+    <quickActions>
+        <label><!-- Create Reservation --></label>
+        <name>Create_Reservation</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- LogACall --></label>
+        <name>LogACall</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewAccount --></label>
+        <name>NewAccount</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewCase --></label>
+        <name>NewCase</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewContact --></label>
+        <name>NewContact</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewEvent --></label>
+        <name>NewEvent</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewGroup --></label>
+        <name>NewGroup</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewLead --></label>
+        <name>NewLead</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewNote --></label>
+        <name>NewNote</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewOpportunity --></label>
+        <name>NewOpportunity</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- NewTask --></label>
+        <name>NewTask</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- SendEmail --></label>
+        <name>SendEmail</name>
+    </quickActions>
+    <reportTypes>
+        <description><!-- Screen Flows --></description>
+        <label><!-- Screen Flows --></label>
+        <name>screen_flows_prebuilt_crt</name>
+        <sections>
+            <label><!-- Flow Interview Log Entries --></label>
+            <name>Flow Interview Log Entries</name>
+        </sections>
+        <sections>
+            <label><!-- Flow Interview Logs --></label>
+            <name>Flow Interview Logs</name>
+        </sections>
+    </reportTypes>
+</Translations>

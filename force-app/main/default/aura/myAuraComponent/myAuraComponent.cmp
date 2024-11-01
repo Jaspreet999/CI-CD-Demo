@@ -1,0 +1,20 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 07-28-2023
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<aura:component implements="flexipage:availableForAllPageTypes">
+
+    <lightning:card title="Aura Hello World" iconName="custom:customId">
+    </lightning:card>
+
+    <c:lwcHelloWorld aura:id="childLwc" value="Jaspreet Singh" />
+
+    <lightning:button 
+    label="Test Button" 
+    value="Test Button" 
+    onclick="{!c.helperMethod}">
+    </lightning:button>
+</aura:component>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>update_not_Allowed</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF(
+   ISPICKVAL( PRIORVALUE(StageName) , &apos;Closed Lost&apos;)
+   &amp;&amp;(NOT( ISNEW())),
+   True , False
+)</errorConditionFormula>
+    <errorMessage>error</errorMessage>
+</ValidationRule>

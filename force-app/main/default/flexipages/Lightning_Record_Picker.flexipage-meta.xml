@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <flexiPageRegions>
+        <name>region1</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>lookupfilter</componentName>
+                <identifier>fieldCreation_lookupfilter</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>region2</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>globalLWCRecordPicker</componentName>
+                <identifier>fieldCreation_globalLWCRecordPicker</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>region3</name>
+        <type>Region</type>
+    </flexiPageRegions>
+    <masterLabel>Lightning Record Picker</masterLabel>
+    <template>
+        <name>flexipage:appHomeTemplateHeaderTwoColumnsEqualWidth</name>
+    </template>
+    <type>AppPage</type>
+</FlexiPage>

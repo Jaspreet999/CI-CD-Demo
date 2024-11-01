@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CheckInOutDateShouldbeInFuture</fullName>
+    <active>true</active>
+    <errorConditionFormula>( Check_In_Date__c &lt; Today() &amp;&amp; Check_Out_Date__c &lt; TODAY())</errorConditionFormula>
+    <errorMessage>Check In Date Must Be In future</errorMessage>
+</ValidationRule>
