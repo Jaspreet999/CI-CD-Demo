@@ -22,7 +22,6 @@ export default class GlobalRecordPicker extends LightningElement {
 
   handleObjectChange(event){
     this.targetObject = event.target.value;
-    console.log('this.targetObject -- '+this.targetObject);
   }
   
   handleRecordSelection(event) {
