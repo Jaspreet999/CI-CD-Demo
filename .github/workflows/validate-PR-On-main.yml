@@ -26,10 +26,15 @@ jobs:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
-            # Now we install nodejs in the VM, and specify version 14
+            # Now we install nodejs in the VM, and specify version 20
             - uses: actions/setup-node@v3
               with:
                 node-version: '20.0'
+                
+            - run: npm install
+            - run: npm update
+            - run: sfdx plugins:install @salesforce/sfdx-scanner
+            - run: sfdx scanner:run --target src
 
             - name: 'Checkout source code'
               uses: actions/checkout@v3
