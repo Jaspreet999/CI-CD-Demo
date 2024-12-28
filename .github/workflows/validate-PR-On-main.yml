@@ -1,77 +1,76 @@
 name: Validate to main branch
 
 on:
-    pull_request:
-        types: [opened, synchronize]
-        branches: [main]
-        paths:
-            - "force-app/**"
+  pull_request:
+      types: [opened, synchronize]
+      branches: [main]
+      paths:
+          - "force-app/**"
 
 jobs:
-    deployment-on-main-org:
-        runs-on: ubuntu-latest
-        if: ${{ github.actor != 'dependabot[bot]' }}
-        steps:
-            - name: "Checkout source code"
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
+  deployment-on-main-org:
+      runs-on: ubuntu-latest
+      if: ${{ github.actor != 'dependabot[bot]' }}
+      steps:
+          - name: "Checkout source code"
+            uses: actions/checkout@v4
+            with:
+                fetch-depth: 0
 
-            - name: Cache SFDX CLI packages
-              id: cache-sfdx
-              uses: actions/cache@v3
-              env:
-                  cache-name: cache-sfdx-cli-modules
-              with:
-                  path: ~/sf
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/sfdx-project.json') }}
+          - name: Cache SFDX CLI packages
+            id: cache-sfdx
+            uses: actions/cache@v3
+            env:
+                cache-name: cache-sfdx-cli-modules
+            with:
+                path: ~/sf
+                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/sfdx-project.json') }}
 
-            - name: "Install Salesforce CLI"
-              if: ${{ steps.cache-sfdx.outputs.cache-hit != 'true' }}
-              run: |
-                  wget https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz
-                  mkdir -p ~/sf
-                  tar xJf sf-linux-x64.tar.xz -C ~/sf --strip-components 1
-                  echo "$HOME/sf/bin" >> $GITHUB_PATH
-                  ~/sf/bin/sf version
+          - name: "Install Salesforce CLI"
+            if: ${{ steps.cache-sfdx.outputs.cache-hit != 'true' }}
+            run: |
+                wget https://developer.salesforce.com/media/salesforce-cli/sf/channels/stable/sf-linux-x64.tar.xz
+                mkdir -p ~/sf
+                tar xJf sf-linux-x64.tar.xz -C ~/sf --strip-components 1
+                echo "$HOME/sf/bin" >> $GITHUB_PATH
+                ~/sf/bin/sf version
 
-            - name: "Update SFDX"
-              if: ${{ steps.cache-sfdx.outputs.cache-hit == 'true' }}
-              run: |
-                  echo "$HOME/sf/bin" >> $GITHUB_PATH
-                  ~/sf/bin/sf version
+          - name: "Update SFDX"
+            if: ${{ steps.cache-sfdx.outputs.cache-hit == 'true' }}
+            run: |
+                echo "$HOME/sf/bin" >> $GITHUB_PATH
+                ~/sf/bin/sf version
 
-            - name: "Installing sfdx git delta"
-              run: |
-                  echo y | sf plugins:install sfdx-git-delta
-                  sf plugins
+          - name: "Installing sfdx git delta"
+            run: |
+                echo y | sf plugins:install sfdx-git-delta
+                sf plugins
 
-            - name: "Populate auth file with SFDX_URL secret of integration org"
-              run: |
-                  echo ${{ secrets.SFDX_INTEGRATION_URL }} > ./SFDX_INTEGRATION_URL.txt
+          - name: "Populate auth file with SFDX_URL secret of integration org"
+            run: |
+                echo ${{ secrets.SFDX_INTEGRATION_URL }} > ./SFDX_INTEGRATION_URL.txt
 
-            - name: "Authenticate to Integration Org"
-              run: sf org login sfdx-url -f ./SFDX_INTEGRATION_URL.txt -s -a integration
+          - name: "Authenticate to Integration Org"
+            run: sf org login sfdx-url -f ./SFDX_INTEGRATION_URL.txt -s -a integration
 
-            - name: "Create delta packages for new, modified or deleted metadata"
-              run: |
-                  mkdir changed-sources
-                  sf sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
+          - name: "Create delta packages for new, modified or deleted metadata"
+            run: |
+                mkdir changed-sources
+                sf sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
 
-            # New step to scan for debug logs in the code
-            - name: "Scan for debug logs in code"
-              run: |
-                  # Search for System.debug in the codebase and report the results
-                  echo "Scanning for debug logs in the codebase..."
-                  grep -r "System.debug" force-app/
-                  # If debug logs are found, print a warning and exit with non-zero code (if desired)
-                  if [ $? -eq 0 ]; then
-                      echo "Warning: Debug logs found in the codebase!"
-                      exit 1  # Optional: Fail the job if debug logs are found
-                  else
-                      echo "No debug logs found."
-                  fi
-                  
-            - name: "Deploy Delta Changes - No Tests Run"
-              run: |
-                  sf project deploy start --dry-run -x changed-sources/package/package.xml --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml -l NoTestRun --json
+          # New step to scan for debug logs in the code
+          - name: "Scan for debug logs in code"
+            run: |
+                # Search for System.debug in the codebase and report the results
+                echo "Scanning for debug logs in the codebase..."
+                if grep -r "System.debug" force-app/; then
+                    echo "Warning: Debug logs found in the codebase!"
+                    exit 1  # Optional: Fail the job if debug logs are found
+                else
+                    echo "No debug logs found."
+                fi
+            shell: /usr/bin/bash -e {0}
+            
+          - name: "Deploy Delta Changes - No Tests Run"
+            run: |
+                sf project deploy start --dry-run -x changed-sources/package/package.xml --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml -l NoTestRun --json
