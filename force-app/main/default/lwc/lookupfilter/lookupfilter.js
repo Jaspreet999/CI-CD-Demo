@@ -16,6 +16,7 @@ export default class Lookupfilter extends LightningElement {
 
   handleRecordSelection(event) {
     //this.accountId = ;
+    console.log('19 --');
     this.filters = {
         criteria: [
           {
