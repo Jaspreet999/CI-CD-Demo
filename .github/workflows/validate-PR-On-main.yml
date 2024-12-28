@@ -58,6 +58,20 @@ jobs:
                   mkdir changed-sources
                   sf sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
 
+            # New step to scan for debug logs in the code
+            - name: "Scan for debug logs in code"
+              run: |
+                  # Search for System.debug in the codebase and report the results
+                  echo "Scanning for debug logs in the codebase..."
+                  grep -r "System.debug" force-app/
+                  # If debug logs are found, print a warning and exit with non-zero code (if desired)
+                  if [ $? -eq 0 ]; then
+                      echo "Warning: Debug logs found in the codebase!"
+                      exit 1  # Optional: Fail the job if debug logs are found
+                  else
+                      echo "No debug logs found."
+                  fi
+                  
             - name: "Deploy Delta Changes - No Tests Run"
               run: |
                   sf project deploy start --dry-run -x changed-sources/package/package.xml --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml -l NoTestRun --json
