@@ -1,161 +1,114 @@
 # Unique name for this workflow
 name: Validate PR on main branch
 
-# Definition when the workflow should run
+# Trigger conditions
 on:
-    # The workflow will run whenever an event happens on a pull request
-    pull_request:
-      # The events are that a PR is opened, or when a commit is pushed
-      # to a branch that has an existing pull request
-      types: [opened, synchronize]
-      #branch name 
-      branches: [ main ]
-      # when changing non-salesforce files (like this yml file).
-      paths:
-        - 'force-app/**'
-            
+  pull_request:
+    types: [opened, synchronize]
+    branches: [main]
+    paths:
+      - 'force-app/**'
 
-# Jobs to be executed when the above conditions are met
+# Jobs to execute
 jobs:
-    # This is the name of the job. You can give it whatever name you want
-    validate-deployment-on-develop-org:
-        # As mentioned in the blog post, this job runs inside a VM. Here we
-        # can specify which OS this VM should run on. 
-        # In this case, we are going to run our commands on the latest version
-        # of ubuntu
-        runs-on: ubuntu-latest
-        if: ${{ github.actor != 'dependabot[bot]' }}
-        steps:
-            # Now we install nodejs in the VM, and specify version 20
-            - uses: actions/setup-node@v3
-              with:
-                node-version: '20.0'
-                
-            - run: npm install
-            - run: npm update
-            - run: sfdx plugins:install @salesforce/sfdx-scanner
-            - run: sfdx scanner:run --target src
+  validate-deployment-on-develop-org:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    steps:
+      # Setup Node.js with the latest compatible version
+      - name: 'Setup Node.js'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
 
-            - name: 'Checkout source code'
-              uses: actions/checkout@v3
-              with:
-                fetch-depth: 0
-            
-            
-            - name: 'Read PR Body'
-              env:
-                # The pull request body is available through the github context object
-                # we put the body of the pull request in an env variable (only available to this step)
-                PR_BODY: ${{github.event.pull_request.body}}
+      # Install dependencies
+      - name: 'Install dependencies'
+        run: |
+          npm install
+          npm update
+          npm install eslint@latest --save-dev
 
-              # Here we print the content of the environment variable and
-              # pipe to a a text file.
+      # Install Salesforce CLI
+      - name: 'Install Salesforce CLI'
+        run: |
+          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+          mkdir ~/sfdx
+          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+          ~/sfdx/bin/sfdx version
 
-              # Then we call the local script parsePR.js, which will create
-              # a new file called testsToRun.txt. This file will have the list
-              # of tests to run separated by a comma
+      # Install and update SFDX Scanner
+      - name: 'Install SFDX Scanner'
+        run: |
+          sfdx plugins:install @salesforce/sfdx-scanner
+          npm install eslint@latest --save-dev
 
-              # Finally, we add the list of tests to the $GITHUB_ENV variable
-              # as this allows us to reference the list in a subsequent step.  If you
-              # were using a normal env variable, its value would not be available outside this step.
-              run: |
-                  echo $PR_BODY > ./pr_body.txt
-                  node ./parsePR.js              
-                  TESTS=$(cat testsToRun.txt)       
-                  echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
-                  
-            # Now Install Salesforce CLI
-            - name: 'Install Salesforce CLI'
-              run: |
-                  wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-                  mkdir ~/sfdx
-                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
-                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
-                  ~/sfdx/bin/sfdx version
+      # Checkout source code
+      - name: 'Checkout source code'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-            # Then we install the SFDX-Git-Delta plugin - https://github.com/scolladon/sfdx-git-delta
-            # This is an awesome plugin that allows us to extract a package.xml with the metadata
-            # that has changed between commits. I highly recommend going over the github readme 
-            # for more information on how this works.
+      # Read PR Body and prepare tests
+      - name: 'Read PR Body'
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          echo $PR_BODY > ./pr_body.txt
+          node ./parsePR.js              
+          TESTS=$(cat testsToRun.txt)       
+          echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
 
-            - name: 'Installing sfdx git delta'
-              run: | 
-                  echo y | sfdx plugins:install sfdx-git-delta
-                  sfdx plugins 
+      # Install SFDX Git Delta plugin
+      - name: 'Install SFDX Git Delta'
+        run: |
+          echo y | sfdx plugins:install sfdx-git-delta
+          sfdx plugins
 
-            # Install java as it is required for the next step
-            - name: 'Installing java'
-              run: |
-                sudo apt-get update
-                sudo apt install default-jdk
+      # Install Java (required for SFDX tools)
+      - name: 'Install Java'
+        run: |
+          sudo apt-get update
+          sudo apt install default-jdk
 
-            # Install SFDX scanner
-            - name: 'Installing SFDX scanner'
-              run: sfdx plugins:install @salesforce/sfdx-scanner
+      # Authenticate using GitHub Secret
+      - name: 'Authenticate to Integration Org'
+        run: |
+          echo ${{ secrets.SFDX_INTEGRATION_URL }} > ./SFDX_INTEGRATION_URL.txt
+          sfdx auth:sfdxurl:store -f ./SFDX_INTEGRATION_URL.txt -s -a integration
 
-            # Prior to setting up this workflow, you have to create a Github Secret
-            # that contains the sfdx url of the integration/qa org.
+      # Generate delta packages for changed metadata
+      - name: 'Create Delta Packages'
+        run: |
+          mkdir changed-sources
+          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
 
-            # The steps to generate the url are here 
-            # https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference_auth_sfdxurl.htm
+      # Run SFDX Scanner on changed sources
+      - name: 'Run Code Scanner'
+        run: |
+          cd changed-sources
+          sfdx scanner:run --format sarif --target './**/*.cls' --category "Design,Best Practices,Performance" --outfile 'apexScanResults.sarif'
+          cd ..
 
-            # This URL can then be used with the sfdx auth:sfdxurl:store to authenticate
-            # the sfdx project in the repositry, against the org from which the URL
-            # was generated from. This works just like that, there's no need to create
-            # connected apps or any else. 
+      # Upload SARIF file for code analysis
+      - name: 'Upload SARIF File'
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: changed-sources/apexScanResults.sarif
 
-            # The URL is stored in the Github Secret named SFDX_INTEGRATION_URL
-            # so here we store the URL into a text file
-            - name: 'Populate auth file with SFDX_URL secret of integration org'
-              shell: bash
-              run: |
-                  echo ${{ secrets.SFDX_INTEGRATION_URL}} > ./SFDX_INTEGRATION_URL.txt
+      # Deploy changes and run specified tests
+      - name: 'Check-only Deploy (Specified Tests)'
+        if: ${{ env.APEX_TESTS != 'all' }}
+        run: |
+          sfdx force:source:deploy -p "changed-sources/force-app" --checkonly --testlevel RunSpecifiedTests --runtests ${{ env.APEX_TESTS }} --json
 
-            # Authenticate to org using the URL stored in the text file
-            - name: 'Authenticate to Integration Org'
-              run: sfdx auth:sfdxurl:store -f ./SFDX_INTEGRATION_URL.txt -s -a integration
+      # Deploy changes and run all tests
+      - name: 'Check-only Deploy (All Tests)'
+        if: ${{ env.APEX_TESTS == 'all' }}
+        run: |
+          sfdx force:source:deploy -p "changed-sources/force-app" --checkonly --testlevel RunLocalTests --json
 
-            # We use SFDX Git Delta to create a directory with only the metadata that has changed.
-            # this allows us to deploy only those changes, as opposed to deploying the entire branch. 
-            # This helps reducing deployment times
-            - name: 'Create delta packages for new, modified or deleted metadata'
-              run: | 
-                  mkdir changed-sources
-                  sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/ 
-
-            # Now we can use the sfdx scanner to scan the code in the delta directory
-            # The output of the scan is stored in a file called apexScanResults.sarif
-
-            # The .sarif file can later be uploaded to github, so that we can see the 
-            # results of the scan directly from the PR.
-
-            - name: 'Scan code'
-              run: |
-                  cd changed-sources
-                  sfdx scanner:run --format sarif --target './**/*.cls' --category "Design,Best Practices,Performance" --outfile 'apexScanResults.sarif'  
-                  cd ..
-
-            # Now we upload the .sarif file as explained in the previous step
-            - name: Upload SARIF file
-              uses: github/codeql-action/upload-sarif@v1
-              with:
-                sarif_file: changed-sources/apexScanResults.sarif
-
-            # We do a check-only deploy and we only run the tests specified in the PR
-            # If the env variable does not equal 'all', we know that there is a list of
-            # tests that can be run
-
-            - name: 'Check-only deploy delta changes - run specified tests'
-              if: ${{ env.APEX_TESTS != 'all' }}
-              run: |
-                  echo ${{env.APEX_TESTS}}
-                  sfdx force:source:deploy -p "changed-sources/force-app" --checkonly --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} --json
-
-            # If the env variable equals all, we run all tests
-            - name: 'Check-only deploy delta changes - run all tests'
-              if: ${{ env.APEX_TESTS == 'all' }}
-              run: |
-                  sfdx force:source:deploy -p "changed-sources/force-app" --checkonly --testlevel RunLocalTests  --json
-
-            - name: 'Deploy destructive changes (if any)'
-              run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings 
+      # Deploy destructive changes, if any
+      - name: 'Deploy Destructive Changes'
+        run: |
+          sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings
