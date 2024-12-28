@@ -21,7 +21,6 @@ public class CreateThousandsOfContacts implements Database.Batchable<Contact>, D
         insert contacts;
     }
     public void finish(Database.BatchableContext bc){
-        System.debug('recordProcessed = '+recordProcessed);
         if(recordProcessed<10001){
             CreateThousandsOfContacts ctc = new CreateThousandsOfContacts();
         	Id batchId = database.executeBatch(ctc,200); 
