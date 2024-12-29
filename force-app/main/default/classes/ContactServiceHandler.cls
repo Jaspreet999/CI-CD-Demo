@@ -8,5 +8,6 @@ public with sharing class ContactServiceHandler {
             Where id=:id limit 1
         ].Name;
         return name;
+    }
 
 }
