@@ -7,7 +7,6 @@ public with sharing class ContactServiceHandler {
             From Contact
             Where id=:id limit 1
         ].Name;
-        System.debug('Name:'+name);
         return name;
 
 }
