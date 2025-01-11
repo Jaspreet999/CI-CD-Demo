@@ -10,4 +10,5 @@ private class ContactDetailsTest {
         String thisContactName = ContactDetails.getContact(thisContact.Id);
         System.Assert.isTrue(thisContactName == 'Dannis');
     }
+    
 }
