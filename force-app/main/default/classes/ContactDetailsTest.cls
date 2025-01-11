@@ -11,4 +11,5 @@ private class ContactDetailsTest {
         System.Assert.isTrue(thisContactName == 'Dannis');
     }
     
+
 }
