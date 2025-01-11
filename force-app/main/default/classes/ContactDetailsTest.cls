@@ -1,7 +1,6 @@
 @isTest
 private class ContactDetailsTest {
 
-    
     @isTest
     static void myUnitTest() {
         Contact thisContact = new Contact(
