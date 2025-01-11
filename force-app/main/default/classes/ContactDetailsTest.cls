@@ -7,7 +7,7 @@ private class ContactDetailsTest {
             LastName = 'Dannis'
         );       
         insert thisContact;
-        String thisContactName = ContactDetails.getContact(thisContact.Id);
+        String thisContactName = ContactDetails.getContactName(thisContact.Id);
         System.Assert.isTrue(thisContactName == 'Dannis');
     }
     
