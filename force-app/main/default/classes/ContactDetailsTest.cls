@@ -4,11 +4,11 @@ private class ContactDetailsTest {
     @isTest
     static void myUnitTest() {
         Contact thisContact = new Contact(
-            LastName = 'Dannis'
+            LastName = 'Dannis Test'
         );    
         insert thisContact;
         String thisContactName = ContactDetails.getContactName(thisContact.Id);
-        System.Assert.isTrue(thisContactName == 'Dannis');
+        System.Assert.isTrue(thisContactName == 'Dannis Test');
         
     }
     
