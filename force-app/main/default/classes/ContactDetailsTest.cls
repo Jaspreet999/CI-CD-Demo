@@ -6,11 +6,9 @@ private class ContactDetailsTest {
         Contact thisContact = new Contact(
             LastName = 'Dannis'
         );    
-           
         insert thisContact;
         String thisContactName = ContactDetails.getContactName(thisContact.Id);
         System.Assert.isTrue(thisContactName == 'Dannis');
     }
     
-
 }
