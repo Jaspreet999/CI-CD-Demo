@@ -67,7 +67,7 @@ jobs:
           else
             echo "No debug logs found."
           fi
-        shell: /usr/bin/bash
+        shell: /usr/bin/bash -e {0}
 
       - name: "Check-only deploy delta changes - run specified tests"
         if: ${{ env.APEX_TESTS != 'all' }}
