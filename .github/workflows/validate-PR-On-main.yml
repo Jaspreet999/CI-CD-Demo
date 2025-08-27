@@ -17,6 +17,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: "Sync JSON changes to Metadata"
+        run: |
+          echo "Running JSON → Metadata sync..."
+          node scripts/sync-json-to-metadata.js
+
       - name: "Read PR Body"
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
