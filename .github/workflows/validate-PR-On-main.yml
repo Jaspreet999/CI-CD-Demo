@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "force-app/**"
+      - "files/*.json"
 
 jobs:
   deployment-on-main-org:
