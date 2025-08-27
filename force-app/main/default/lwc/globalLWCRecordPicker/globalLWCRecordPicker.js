@@ -8,6 +8,10 @@ const options =[
     {
         label:"Contact",
         value:"Contact"
+    },
+    {
+        label:"Opportunity",
+        value:"Opportunity"
     }
 ];
 

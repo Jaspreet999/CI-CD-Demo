@@ -1,0 +1,27 @@
+<template>
+    <lightning-card title="Slot Component with Modal" icon-name="standard:search">
+        <div class="slds-grid slds-grid_vertical slds-var-p-around_medium">
+            <div class="slds-col slds-var-m-bottom_large">
+                <lightning-input 
+                    type="text"
+                    label="Enter Text" 
+                    placeholder="enter some text ..."
+                    onchange={handleTextChange} 
+                    value={textData}>
+                </lightning-input>
+            </div>
+
+            <div class="slds-col">
+                <c-child-uncle>
+                    <h2 class="slds-text-heading_medium slds-text-color_brand slds-var-m-bottom_small">
+                        Slot Component Demo
+                    </h2><!--call unnamed slots-->
+                    <p slot="body" class="slds-text-title_bold">
+                        {textData}
+                    </p>
+                </c-child-uncle>
+            </div>
+
+        </div>
+    </lightning-card>
+</template>
