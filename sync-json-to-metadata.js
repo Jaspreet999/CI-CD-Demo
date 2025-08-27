@@ -3,8 +3,7 @@ const path = require("path");
 
 // Input/Output paths
 const jsonFile = path.join(process.cwd(), "files", "my_record.json");
-const metadataFile = path.join(__dirname, "../force-main/main/default/customMetadata/JSON_HOLDER.TEST.md-meta.xml");
-
+const metadataFile = path.join(process.cwd(), "force-main", "main", "default", "customMetadata", "JSON_HOLDER.TEST.md-meta.xml");
 // Read JSON
 const jsonData = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
 
