@@ -1,0 +1,18 @@
+<template>
+
+    <lightning-card>
+
+        <div>
+            <h1>This is Parent Component {newMessage}</h1>
+            <lightning-input 
+            type="text" 
+            placeholder="please enter some text" 
+            label="Enter Name"
+            onchange={handleNameChange} >
+            </lightning-input>
+            <c-child-component message={message} onnamechange={handleNameChnage}></c-child-component>
+        </div>      
+
+    </lightning-card>
+    
+</template>
