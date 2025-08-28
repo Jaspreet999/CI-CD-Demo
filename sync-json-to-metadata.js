@@ -6,7 +6,19 @@ const jsonFile = path.join(process.cwd(), "files", "my_record.json");
 const metadataFile = path.join(__dirname, "../force-app/main/default/customMetadata/AAA_Settings.Bundling_JSON.md-meta.xml");
 const jsonData = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
 
-const jsonString = JSON.stringify(jsonData);
+let jsonString = JSON.stringify(jsonData, null, 2); // Pretty-print with indentation
+
+// Escape special XML characters
+function escapeXml(unsafe) {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+jsonString = escapeXml(jsonString);
 
 // Convert JSON to Metadata XML
 const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
