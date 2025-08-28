@@ -541,7 +541,7 @@
           "f-radar"
         ],
         "productDescription": "TBC",
-        "sellable": true
+        "sellable": false
       },
       "fs-talent-sf": {
         "cognitoGroups": [
