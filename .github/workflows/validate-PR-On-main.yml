@@ -87,31 +87,6 @@ jobs:
       - name: "Check-only deploy delta changes - run specified tests"
         if: ${{ env.APEX_TESTS != 'all' }}
         run: |
-<<<<<<< HEAD
-          if [ -d "changed-sources/force-app" ]; then
-            echo "Deploying from delta folder..."
-            sf project deploy start --source-dir "changed-sources/force-app" \
-              --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
-          else
-            echo "Delta folder not found. Deploying from force-app instead..."
-            sf project deploy start --source-dir "force-app" \
-              --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
-          fi
-
-      - name: "Check-only deploy delta changes - run all tests"
-        if: ${{ env.APEX_TESTS == 'all' }}
-        run: |
-          if [ -d "changed-sources/force-app" ]; then
-            echo "Deploying from delta folder..."
-            sf project deploy start --source-dir "changed-sources/force-app" \
-              --dry-run --test-level RunLocalTests --json
-          else
-            echo "Delta folder not found. Deploying from force-app instead..."
-            sf project deploy start --source-dir "force-app" \
-              --dry-run --test-level RunLocalTests --json
-          fi
-
-=======
         
           echo "Running tests: ${{ env.APEX_TESTS }}"
           sf project deploy start --source-dir "changed-sources/force-app" \
@@ -124,7 +99,6 @@ jobs:
             --dry-run --test-level RunLocalTests --json
 
       
->>>>>>> 4942bcc4395aa57df3c0482f33b68d9f441a21f5
       - name: "Deploy Delta Changes - No Tests Run"
         run: |
           if [ -f "changed-sources/package/package.xml" ]; then
