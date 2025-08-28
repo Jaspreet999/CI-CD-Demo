@@ -546,7 +546,7 @@
         &quot;f-radar&quot;
       ],
       &quot;productDescription&quot;: &quot;TBC&quot;,
-      &quot;sellable&quot;: true
+      &quot;sellable&quot;: false
     },
     &quot;fs-talent-sf&quot;: {
       &quot;cognitoGroups&quot;: [
