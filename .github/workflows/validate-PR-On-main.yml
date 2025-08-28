@@ -90,6 +90,7 @@ jobs:
       - name: "Check-only deploy delta changes - run specified tests"
         if: ${{ env.APEX_TESTS != 'all' }}
         run: |
+        
           echo "Running tests: ${{ env.APEX_TESTS }}"
           sf project deploy start --source-dir "changed-sources/force-app" \
             --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
@@ -99,6 +100,7 @@ jobs:
         run: |
           sf project deploy start --source-dir "changed-sources/force-app" \
             --dry-run --test-level RunLocalTests --json
+
       
       - name: "Deploy Delta Changes - No Tests Run"
         run: |
