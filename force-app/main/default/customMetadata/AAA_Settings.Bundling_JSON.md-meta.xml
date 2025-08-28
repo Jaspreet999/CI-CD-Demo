@@ -102,7 +102,7 @@
       ],
       &quot;upsells&quot;: [],
       &quot;productDescription&quot;: &quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ut venenatis eros. Etiam purus nisl, fringilla et gravida nec, molestie a mi. Aenean laoreet semper neque, in finibus lacus viverra in. Curabitur venenatis lacus velit, quis rutrum enim elementum bibendum. Vivamus hendrerit elementum pulvinar. Etiam ultrices auctor felis id suscipit. Duis tristique felis non nulla pulvinar sodales. Pellentesque non pharetra metus, et faucibus nunc. Sed semper sapien at lacus posuere facilisis. Mauris volutpat dui non justo pretium, ac sagittis ligula mattis. Vestibulum ullamcorper, ipsum nec gravida placerat, massa nisl feugiat massa, ut rhoncus enim arcu nec augue. Cras sed tellus et est finibus laoreet. Aliquam ullamcorper sapien eget aliquet tincidunt. Nunc et elementum velit. Nunc mattis viverra ornare. Mauris malesuada, risus a pulvinar finibus, erat neque semper neque, sit amet porta mi magna a odio.&quot;,
-      &quot;sellable&quot;: true
+      &quot;sellable&quot;: false
     },
     &quot;fs-daas-rrg&quot;: {
       &quot;cognitoGroups&quot;: [
