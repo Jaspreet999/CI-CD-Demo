@@ -8,6 +8,10 @@ on:
       - "force-app/**"
       - "files/*.json"
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   deployment-on-main-org:
     runs-on: ubuntu-latest
