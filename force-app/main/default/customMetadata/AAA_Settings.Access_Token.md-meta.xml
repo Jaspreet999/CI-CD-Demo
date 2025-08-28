@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Access_Token</label>
+    <protected>false</protected>
+    <values>
+        <field>Json_Value__c</field>
+        <value xsi:type="xsd:string">eyJraWQiOiJkZDV2ZmdWQSs1SXQ1MFVZVlZxa3JmamlUbVV5c3FGcDBEb2hISlZ2d093PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJkMWNiZjUwMC1mMGYxLTcwODQtMTM4NS0xMGFjMjk3MzExZjQiLCJhcHBfY2xpZW50IjoiQVBJIiwiY29nbml0bzpncm91cHMiOlsiYWFhX2FwaV9zYWxlc19zeW5jIl0sImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTIuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0yX3pwdzNCY3VDaSIsImNsaWVudF9pZCI6IjI4ZXZ0cmFndTViNjUwcTQzZjdzMnFnczJlIiwib3JpZ2luX2p0aSI6IjE0Yjg2ZTc5LWM2OTAtNDMzMS05NWZhLTU4NWRiYjQyOWIwNCIsImV2ZW50X2lkIjoiNTgxYTMxMDEtMTVmOC00ZTZhLTlmNjQtZjk2MmMyODMxMTRhIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJhd3MuY29nbml0by5zaWduaW4udXNlci5hZG1pbiIsImF1dGhfdGltZSI6MTc1NTcwMzUwNCwiZXhwIjoxNzU1NzMyMzAzLCJpYXQiOjE3NTU3MDM1MDQsImp0aSI6ImMxOTA4ZWEwLWNiNTgtNGIxZS05MDZkLTkyYzM4MTIwMzhmMCIsInVzZXJuYW1lIjoiY3JtX2FkbWluIn0.ck2uXXR0l9Ni-Sf3AxTy6k0XGf11XSRvc_6lLSuHfxhI_Gl3-mxIoE6zcBzlK3FJof5_BLY8RF0j4HNFSHcSdS-dgom5JwvAZm9V88xSWM18l4xTzRQwI4dEoBZ2zRpA6GfSOCvs5ZdSivOW9ihOyIlPMBwgNoFhMUK5VpZ9qtFnicuL70Z-DCZ3SWqoH_CIe77HTXJbnQs8UThCgNV9Lvd-KzjpJhUPuEkGJV2_sI82fngBMZzotYV8yFSKhuC4eZ3t3cYE--4IY6PQpQTEA_opoaSUJw0iDFvb6oOlDyL2CLMOU3w_3BUhh3dAtqDy45Eczi3SG047khR1frghKA</value>
+    </values>
+    <values>
+        <field>Value__c</field>
+        <value xsi:type="xsd:string">xyz</value>
+    </values>
+</CustomMetadata>
