@@ -87,14 +87,26 @@ jobs:
       - name: "Check-only deploy delta changes - run specified tests"
         if: ${{ env.APEX_TESTS != 'all' }}
         run: |
-          echo ${{ env.APEX_TESTS }}
-          sf project deploy start --source-dir "changed-sources/force-app" --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
-
+        
+          echo "Running tests: ${{ env.APEX_TESTS }}"
+          sf project deploy start --source-dir "changed-sources/force-app" \
+            --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
+          
       - name: "Check-only deploy delta changes - run all tests"
         if: ${{ env.APEX_TESTS == 'all' }}
         run: |
-          sfdx force:source:deploy -p "changed-sources/force-app" --checkonly --testlevel RunLocalTests --json
+          sf project deploy start --source-dir "changed-sources/force-app" \
+            --dry-run --test-level RunLocalTests --json
 
+      
       - name: "Deploy Delta Changes - No Tests Run"
         run: |
-          sf project deploy start --dry-run -x changed-sources/package/package.xml --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml -l NoTestRun --json
+          if [ -f "changed-sources/package/package.xml" ]; then
+            echo "Deploying delta package..."
+            sf project deploy start --dry-run \
+              -x changed-sources/package/package.xml \
+              --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml \
+              -l NoTestRun --json
+          else
+            echo "No delta package found. Skipping destructive changes deploy."
+          fi
