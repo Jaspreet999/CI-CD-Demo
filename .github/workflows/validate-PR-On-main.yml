@@ -18,7 +18,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      # 1. Sync JSON → Metadata so changes reflect in force-app/
       - name: "Sync JSON changes to Metadata"
         run: |
           echo "Running JSON → Metadata sync..."
@@ -28,7 +27,7 @@ jobs:
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          echo "$PR_BODY" > ./pr_body.txt
+          echo $PR_BODY > ./pr_body.txt
           node ./parsePR.js
           TESTS=$(cat testsToRun.txt)
           echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
@@ -69,12 +68,10 @@ jobs:
       - name: "Authenticate to Integration Org"
         run: sf org login sfdx-url -f ./SFDX_INTEGRATION_URL.txt -s -a integration
 
-      # 2. Delta package created AFTER JSON sync has updated metadata
       - name: "Create delta packages for new, modified or deleted metadata"
         run: |
           mkdir changed-sources
-          sf sgd:source:delta --to "HEAD" --from "HEAD^" \
-            --output changed-sources/ --generate-delta --source force-app/
+          sf sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
 
       - name: "Scan for debug logs in code"
         run: |
@@ -90,19 +87,37 @@ jobs:
       - name: "Check-only deploy delta changes - run specified tests"
         if: ${{ env.APEX_TESTS != 'all' }}
         run: |
-          echo "Running tests: ${{ env.APEX_TESTS }}"
-          sf project deploy start --source-dir "changed-sources/force-app" \
-            --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
-          
+          if [ -d "changed-sources/force-app" ]; then
+            echo "Deploying from delta folder..."
+            sf project deploy start --source-dir "changed-sources/force-app" \
+              --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
+          else
+            echo "Delta folder not found. Deploying from force-app instead..."
+            sf project deploy start --source-dir "force-app" \
+              --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
+          fi
+
       - name: "Check-only deploy delta changes - run all tests"
         if: ${{ env.APEX_TESTS == 'all' }}
         run: |
-          sf project deploy start --source-dir "changed-sources/force-app" \
-            --dry-run --test-level RunLocalTests --json
-      
+          if [ -d "changed-sources/force-app" ]; then
+            echo "Deploying from delta folder..."
+            sf project deploy start --source-dir "changed-sources/force-app" \
+              --dry-run --test-level RunLocalTests --json
+          else
+            echo "Delta folder not found. Deploying from force-app instead..."
+            sf project deploy start --source-dir "force-app" \
+              --dry-run --test-level RunLocalTests --json
+          fi
+
       - name: "Deploy Delta Changes - No Tests Run"
         run: |
-          sf project deploy start --dry-run \
-            -x changed-sources/package/package.xml \
-            --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml \
-            -l NoTestRun --json
+          if [ -f "changed-sources/package/package.xml" ]; then
+            echo "Deploying delta package..."
+            sf project deploy start --dry-run \
+              -x changed-sources/package/package.xml \
+              --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml \
+              -l NoTestRun --json
+          else
+            echo "No delta package found. Skipping destructive changes deploy."
+          fi
