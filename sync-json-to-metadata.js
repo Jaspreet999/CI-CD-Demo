@@ -17,6 +17,10 @@ const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
         <field>Json_Value__c</field>
         <value xsi:type="xsd:string">${jsonString}</value>
     </values>
+    <values>
+        <field>Value__c</field>
+        <value xsi:type="xsd:string">Bundling</value>
+    </values>
 </CustomMetadata>`;
 
 // Write output
