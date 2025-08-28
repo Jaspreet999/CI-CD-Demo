@@ -3,9 +3,7 @@ const path = require("path");
 
 // Input/Output paths
 const jsonFile = path.join(process.cwd(), "files", "my_record.json");
-const metadataFile = path.join(__dirname, "../force-main/main/default/customMetadata/JSON_HOLDER.TEST.md-meta.xml");
-
-// Read JSON
+const metadataFile = path.join(__dirname, "../force-app/main/default/customMetadata/JSON_HOLDER.Test.md-meta.xml");
 const jsonData = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
 
 // Convert JSON to Metadata XML
@@ -20,4 +18,4 @@ const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 </CustomMetadata>`;
 
 // Write output
-fs.writeFileSync(metadataFile, xmlContent, "utf8");
+fs.writeFileSync('force-app/main/default/customMetadata/JSON_HOLDER.Test.md-meta.xml', xmlContent, "utf8");
