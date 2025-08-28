@@ -18,4 +18,4 @@ const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
 </CustomMetadata>`;
 
 // Write output
-fs.writeFileSync(metadataFile, xmlContent, "utf8");
+fs.writeFileSync('force-app/main/default/customMetadata/JSON_HOLDER.Test.md-meta.xml', xmlContent, "utf8");
