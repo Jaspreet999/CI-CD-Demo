@@ -8,6 +8,10 @@ on:
       - "force-app/**"
       - "files/*.json"
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   deployment-on-main-org:
     runs-on: ubuntu-latest
@@ -22,6 +26,15 @@ jobs:
         run: |
           echo "Running JSON → Metadata sync..."
           node ./sync-json-to-metadata.js
+
+      - name: "Commit updated metadata back to PR branch"
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add force-app/main/default/customMetadata/
+          git commit -m "chore: update metadata from JSON" || echo "No changes to commit"
+          git push origin HEAD:${{ github.head_ref }}
 
       - name: "Read PR Body"
         env:
@@ -87,26 +100,14 @@ jobs:
       - name: "Check-only deploy delta changes - run specified tests"
         if: ${{ env.APEX_TESTS != 'all' }}
         run: |
-        
-          echo "Running tests: ${{ env.APEX_TESTS }}"
-          sf project deploy start --source-dir "changed-sources/force-app" \
-            --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
+          echo ${{ env.APEX_TESTS }}
+          sf project deploy start --source-dir "changed-sources/force-app" --dry-run --test-level RunSpecifiedTests --tests ${{ env.APEX_TESTS }} --json
           
       - name: "Check-only deploy delta changes - run all tests"
         if: ${{ env.APEX_TESTS == 'all' }}
         run: |
-          sf project deploy start --source-dir "changed-sources/force-app" \
-            --dry-run --test-level RunLocalTests --json
-
+          sf project deploy start --source-dir "changed-sources/force-app" --dry-run --test-level RunLocalTests --json
       
       - name: "Deploy Delta Changes - No Tests Run"
         run: |
-          if [ -f "changed-sources/package/package.xml" ]; then
-            echo "Deploying delta package..."
-            sf project deploy start --dry-run \
-              -x changed-sources/package/package.xml \
-              --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml \
-              -l NoTestRun --json
-          else
-            echo "No delta package found. Skipping destructive changes deploy."
-          fi
+          sf project deploy start --dry-run -x changed-sources/package/package.xml --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml -l NoTestRun --json
