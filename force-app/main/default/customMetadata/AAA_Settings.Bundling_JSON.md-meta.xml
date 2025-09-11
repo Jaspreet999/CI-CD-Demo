@@ -140,7 +140,7 @@
       ],
       &quot;upsells&quot;: [],
       &quot;productDescription&quot;: &quot;TBC&quot;,
-      &quot;sellable&quot;: true
+      &quot;sellable&quot;: false
     },
     &quot;fs-client-acquisition-b2b-basic&quot;: {
       &quot;cognitoGroups&quot;: [
