@@ -120,7 +120,7 @@
         ],
         "upsells": [],
         "productDescription": "TBC",
-        "sellable": true 
+        "sellable": true  
       },
       "fs-salesforce-rrg": {
         "cognitoGroups": [

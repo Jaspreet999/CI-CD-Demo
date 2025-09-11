@@ -90,6 +90,6 @@ jobs:
       #   run: |
       #     sf project deploy start --source-dir "changed-sources/force-app" --dry-run --test-level RunLocalTests --json
       
-      - name: "Deploy Delta Changes - No Tests Run"
-        run: |
-          sf project deploy start --dry-run -x changed-sources/package/package.xml --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml -l NoTestRun --json
+      # - name: "Deploy Delta Changes - No Tests Run"
+      #   run: |
+      #     sf project deploy start --dry-run -x changed-sources/package/package.xml --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml -l NoTestRun --json
