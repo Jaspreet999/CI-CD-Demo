@@ -9,6 +9,11 @@ on:
         branches: [ main ]
         paths:
             - "force-app/**"
+            - "files/*.json"
+
+permissions:
+  contents: write
+  pull-requests: write
 
 # Jobs to be executed when the above conditions are met
 jobs:
