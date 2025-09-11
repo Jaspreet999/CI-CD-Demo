@@ -22,19 +22,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: "Sync JSON changes to Metadata"
-        run: |
-          echo "Running JSON → Metadata sync..."
-          node ./sync-json-to-metadata.js
-
-      - name: "Commit updated metadata back to PR branch"
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add force-app/main/default/customMetadata/
-          git commit -m "chore: update metadata from JSON" || echo "No changes to commit"
-          git push origin HEAD:${{ github.head_ref }}
 
       - name: "Read PR Body"
         env:
