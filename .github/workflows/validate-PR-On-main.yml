@@ -106,7 +106,8 @@ jobs:
       
       - name: "Deploy Delta Changes - No Tests Run"
         run: |
-          if [ -f changed-sources/package/package.xml ] && \
-              grep -q "<types>" changed-sources/package/package.xml; then
+          if [ -f changed-sources/package/package.xml ] && grep -q "<types>" changed-sources/package/package.xml; then
 
             sf project deploy start --dry-run -x changed-sources/package/package.xml --post-destructive-changes changed-sources/destructiveChanges/destructiveChanges.xml -l NoTestRun --json
+          
+          fi
