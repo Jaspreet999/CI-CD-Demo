@@ -13,7 +13,7 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
+
 
 # Jobs to be executed when the above conditions are met
 jobs:
@@ -28,19 +28,18 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: "Sync JSON changes to Metadata"
+            - name: Sync JSON changes to Metadata
               run: |
                 echo "Running JSON → Metadata sync..."
                 node ./sync-json-to-metadata.js
 
-            - name: "Commit updated metadata back to PR branch"
-              if: ${{ github.event_name == 'push' }}
+            - name: Commit updated metadata to main
               run: |
                 git config --local user.email "github-actions[bot]@users.noreply.github.com"
                 git config --local user.name "github-actions[bot]"
                 git add force-app/main/default/customMetadata/
                 git commit -m "chore: update metadata from JSON" || echo "No changes to commit"
-                git push origin HEAD:${{ github.head_ref }}
+                git push origin main
 
             # Store SFDX CLI in Cache
             - name: Cache SFDX CLI packages
