@@ -135,8 +135,8 @@
         ],
         "upsells": [],
         "productDescription": "TBC",
-        "sellable": true
-      },
+        "sellable": true 
+      }, 
       "fs-client-acquisition-b2b-basic": {
         "cognitoGroups": [
           "universe-professional",
