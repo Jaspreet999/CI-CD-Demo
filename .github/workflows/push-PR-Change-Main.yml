@@ -19,7 +19,7 @@ jobs:
     # This is the name of the job. You can give it whatever name you want
     deployment-on-develop-org:
         runs-on: ubuntu-latest
-        if: ${{ github.actor != 'dependabot[bot]' }} && github.event.pull_request.merged == true
+        if: github.actor != 'dependabot[bot]' && github.event.pull_request.merged == true
         steps:
 
             - name: "Checkout source code"
